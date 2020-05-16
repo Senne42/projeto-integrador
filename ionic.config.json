@@ -1,7 +1,8 @@
 {
   "name": "projeto-integrador2",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
