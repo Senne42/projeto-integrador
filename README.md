@@ -1,17 +1,16 @@
-## Projeto Integrador - Grupo 9
+## Projeto Integrador - Grupo 5
 
 ## Scrum Master: 
 
-## - Cesar Ando
+- Cesar Ando
 
 ## Integrantes:
 
-## - Alexandre Gill 
-## - Larissa Costa
-## - Luís Augusto
-## - Mateus Senne
-## - Otávio Augusto
-
+- Alexandre Gill 
+- Larissa Costa
+- Luís Augusto
+- Mateus Senne
+- Otávio Augusto
 
 
 # Calendário interativo:
@@ -26,5 +25,10 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 3. Criar lembrete
 4. Selecionar data
 5. Deletar evento
-6. Editar Evento
+6. Editar evento
 7. Fechar calendário
+
+### Apresentação dos requisitos/funcionalidades: https://youtu.be/6EQiPScVaIY
+
+
+### Apresentação da POC: https://youtu.be/kMA2BPzb5mY
