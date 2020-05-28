@@ -1,17 +1,37 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Titulo 2
+      Cadastrar evento
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-grid>
+  <ion-row>
+    <ion-col >
+      <ion-label>Titulo</ion-label>
+      <ion-input placeholder="Titulo do evento" [(ngModel)] = "titulo"></ion-input>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <ion-label>Descrição</ion-label>
+      <ion-item>
+        <ion-textarea placeholder="Descrição do evento..." [(ngModel)] = "descricao"></ion-textarea>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+<ion-row>
+    <ion-col>
+      <ion-label>Data do evento</ion-label>
+      <ion-datetime value="2019-10-01T15:43:40.394Z" display-timezone="utc" [(ngModel)] = "data"></ion-datetime>
+    </ion-col>
+  </ion-row>
+<ion-row>
+    <ion-col>
+      <ion-button color="primary" (click)="onSubmit()">Cadastrar evento</ion-button>
+    </ion-col>
+  </ion-row>
+  </ion-grid>
 </ion-content>
