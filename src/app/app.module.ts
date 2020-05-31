@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
@@ -10,6 +10,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
+import { registerLocaleData } from '@angular/common'; //import pra deixar a aplicação em ptBr
+import ptBr from '@angular/common/locales/pt';
+registerLocaleData(ptBr);
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -18,6 +22,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
     StatusBar,
     SplashScreen,
     SpeechRecognition,
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
   bootstrap: [AppComponent]
