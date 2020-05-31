@@ -53,5 +53,6 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 - Implementação dos primeiros comandos de voz "abrir calendário" e "adicionar lembrete".
 - Escolha e implementação dos ícones da aplicação.
 - Estudo e implementação para alteração do idioma do calendário (PT-BR).
+- Alteração visual do README e adição do conteúdo trabalhado nas sprints.
 
-**Apresentação da Sprint 3:**
+**Apresentação da Sprint 3:** https://youtu.be/xm-Q3Bq4vCA 
