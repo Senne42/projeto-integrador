@@ -55,4 +55,4 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 - Estudo e implementação para alteração do idioma do calendário (PT-BR).
 - Alteração visual do README e adição do conteúdo trabalhado nas sprints.
 
-**Apresentação da Sprint 3:** https://youtu.be/xm-Q3Bq4vCA 
+**Apresentação da Sprint 3:** https://youtu.be/Mq3ndyrH4Zk 
