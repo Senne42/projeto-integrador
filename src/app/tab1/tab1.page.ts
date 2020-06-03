@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { ChangeDetectorRef } from '@angular/core';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage'
 
 @Component({
   selector: 'app-tab1',
@@ -11,8 +12,12 @@ export class Tab1Page {
   matches: String[];
   isRecording = false;
   dataAtual = new Date();
-  mode = 'mounth';
-  constructor(private speechRecognition: SpeechRecognition, private cd: ChangeDetectorRef) { }
+  mode = 'month';
+  constructor(
+    private speechRecognition: SpeechRecognition, 
+    private cd: ChangeDetectorRef,
+    private storageProvider: LocalStorageProvider 
+    ) { }
 
   stopListening() {
     this.speechRecognition.stopListening().then(() => {
@@ -21,12 +26,13 @@ export class Tab1Page {
   }
  
   getPermission() {
-    this.speechRecognition.hasPermission()
-      .then((hasPermission: boolean) => {
-        if (!hasPermission) {
-          this.speechRecognition.requestPermission();
-        }
-      });
+    // this.speechRecognition.hasPermission()
+    //   .then((hasPermission: boolean) => {
+    //     if (!hasPermission) {
+    //       this.speechRecognition.requestPermission();
+    //     }
+    //   });
+    this.storageProvider.onSetCalendar('teste');  
   }
  
   startListening() {
