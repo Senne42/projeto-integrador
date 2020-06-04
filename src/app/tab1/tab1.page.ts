@@ -26,12 +26,12 @@ export class Tab1Page {
   }
  
   getPermission() {
-    // this.speechRecognition.hasPermission()
-    //   .then((hasPermission: boolean) => {
-    //     if (!hasPermission) {
-    //       this.speechRecognition.requestPermission();
-    //     }
-    //   });
+    this.speechRecognition.hasPermission()
+      .then((hasPermission: boolean) => {
+        if (!hasPermission) {
+          this.speechRecognition.requestPermission();
+        }
+      });
     this.storageProvider.onSetCalendar('teste');  
   }
  
