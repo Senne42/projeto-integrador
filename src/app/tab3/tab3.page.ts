@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { LocalStorageProvider } from '../../providers/local-storage/local-storage'
 
 @Component({
   selector: 'app-tab3',
@@ -7,6 +8,13 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['tab3.page.scss']
 })
 export class Tab3Page {
+
+    async ionViewWillEnter(){
+        let calendar = await this.storageProvider.onGetCalendar();
+        if (calendar){
+            this.eventSource = calendar;
+        }
+    }
   eventSource;
   viewTitle;
 
@@ -42,12 +50,14 @@ export class Tab3Page {
       }
   };
 
-  constructor(private navController:NavController) {
+  constructor(private navController:NavController,
+    private storageProvider: LocalStorageProvider) {
 
   }
 
   loadEvents() {
       this.eventSource = this.createRandomEvents();
+      this.storageProvider.onSetCalendar(this.eventSource);
   }
 
   onViewTitleChanged(title) {
