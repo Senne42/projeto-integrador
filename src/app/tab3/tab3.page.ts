@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage'
+import { LocalStorageProvider } from '../../providers/localStorage'
 
 @Component({
   selector: 'app-tab3',

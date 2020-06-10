@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Storage } from '@ionic/storage';
-import * as CONST from '../../environments/consts';
+import * as CONST from '../environments/consts';
 
 @Injectable()
 export class LocalStorageProvider{

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage'
+import { LocalStorageProvider } from '../../providers/localStorage'
 
 @Component({
   selector: 'app-tab2',

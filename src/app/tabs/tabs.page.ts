@@ -1,6 +1,7 @@
 import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { Router } from '@angular/router';
+import { TextSpeechProvider } from 'src/providers/textSpeech';
 
 @Component({
   selector: 'app-tabs',
@@ -9,16 +10,20 @@ import { Router } from '@angular/router';
 })
 export class TabsPage implements OnInit {
   matches: String[];
-  constructor(private speechRecognition: SpeechRecognition, private cd: ChangeDetectorRef, private router: Router,) {}
+  constructor(
+    private speechRecognition: SpeechRecognition,
+    private cd: ChangeDetectorRef,
+    private router: Router,
+    private textSpeechProvider: TextSpeechProvider) {}
   ngOnInit(): void {
-    this.getPermission();
+    //this.getPermission();
   }
   getPermission() {
     this.speechRecognition.hasPermission()
       .then(async (hasPermission: boolean) => {
         if (!hasPermission) {
           await this.speechRecognition.requestPermission();
-          this.microfone();
+          //this.microfone();
         }
       });  
   }
@@ -26,7 +31,7 @@ export class TabsPage implements OnInit {
   microfone(){  
     let options = {
       language: 'pt-BR',
-      showPopup: false,
+      showPopup: true,
     }
     this.speechRecognition.startListening(options)
   .subscribe(
@@ -35,17 +40,19 @@ export class TabsPage implements OnInit {
       this.matches = matches;
       for (let i = 0; this.matches.length > i; i++){
         if (this.matches[i].toLowerCase().includes("abrir calendário")){
+          this.textSpeechProvider.speak(matches[i]);
           this.router.navigate(['tabs/tab3']);
         }
         if (this.matches[i].toLowerCase().includes("adicionar lembrete")){
+          this.textSpeechProvider.speak(matches[i]);
           this.router.navigate(['tabs/tab2']);
         }
       } 
-      this.microfone();
+      //this.microfone();
     },
     (onerror) => {
       console.log('error:', onerror);
-      this.microfone();
+      //this.microfone();
     }
   )
       this.cd.detectChanges();

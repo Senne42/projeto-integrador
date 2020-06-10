@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { ChangeDetectorRef } from '@angular/core';
-import { LocalStorageProvider } from '../../providers/local-storage/local-storage'
+import { LocalStorageProvider } from '../../providers/localStorage'
 
 @Component({
   selector: 'app-tab1',
