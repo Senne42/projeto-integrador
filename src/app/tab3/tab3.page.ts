@@ -57,6 +57,7 @@ export class Tab3Page {
 
   loadEvents() {
       this.eventSource = this.createRandomEvents();
+      console.log(this.eventSource);
       this.storageProvider.onSetCalendar(this.eventSource);
   }
 

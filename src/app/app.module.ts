@@ -17,6 +17,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { registerLocaleData } from '@angular/common'; //import pra deixar a aplicação em ptBr
 import ptBr from '@angular/common/locales/pt';
 import { TextSpeechProvider } from 'src/providers/textSpeech';
+import { SpeechRecognitionProvider } from 'src/providers/speechRecognition';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -33,6 +34,7 @@ registerLocaleData(ptBr);
     TextToSpeech,
     LocalStorageProvider,
     TextSpeechProvider,
+    SpeechRecognitionProvider,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
