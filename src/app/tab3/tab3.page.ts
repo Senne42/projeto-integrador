@@ -1,18 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { LocalStorageProvider } from '../../providers/localStorage'
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {
+export class Tab3Page implements OnInit {
+
+    private subscription:Subscription;
+
+    constructor(private navController:NavController,
+        private storageProvider: LocalStorageProvider) {
+    
+      }
+        ngOnInit(): void {
+        this.subscription = this.storageProvider.calendar.subscribe((res:any)=>{
+            console.log(res);
+            this.eventSource = res.events;
+            this.calendar.mode = res.mode;
+        })
+        }
 
     async ionViewWillEnter(){
         let calendar = await this.storageProvider.onGetCalendar();
         if (calendar){
-            this.eventSource = calendar;
+            this.eventSource = calendar.events;
+            this.calendar.mode = calendar.mode;
         }
     }
   eventSource;
@@ -50,15 +66,13 @@ export class Tab3Page {
       }
   };
 
-  constructor(private navController:NavController,
-    private storageProvider: LocalStorageProvider) {
-
-  }
-
   loadEvents() {
       this.eventSource = this.createRandomEvents();
       console.log(this.eventSource);
-      this.storageProvider.onSetCalendar(this.eventSource);
+      this.storageProvider.onSetCalendar({
+          mode : this.calendar.mode,
+          events : this.eventSource
+      });
   }
 
   onViewTitleChanged(title) {

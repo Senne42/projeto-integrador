@@ -7,7 +7,7 @@ export class TextSpeechProvider {
     constructor(private tts: TextToSpeech) { }
 
     public speak(text: string){
-        this.tts.speak({
+        return this.tts.speak({
             text: text,
             locale: 'pt-BR',
         })

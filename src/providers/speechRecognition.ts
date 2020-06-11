@@ -12,15 +12,17 @@ export class SpeechRecognitionProvider {
     }
 
     public startListening() {
-        return this.speechRecognition.startListening(this.options)
+        let resultados;
+        this.speechRecognition.startListening(this.options)
         .subscribe(
             (matches: string[]) => {
-                return matches;
+                resultados = matches;
             },
             (onerror) => {
-                return onerror;
+                resultados = onerror;
             }
         )
+        return resultados;
     }
 
     public hasPermission() {
