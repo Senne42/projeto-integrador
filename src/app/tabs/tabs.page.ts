@@ -2,6 +2,7 @@ import { Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 import { Router } from '@angular/router';
 import { TextSpeechProvider } from 'src/providers/textSpeech';
+import { SpeechRecognitionProvider } from 'src/providers/speechRecognition';
 
 @Component({
   selector: 'app-tabs',
@@ -14,8 +15,10 @@ export class TabsPage implements OnInit {
     private speechRecognition: SpeechRecognition,
     private cd: ChangeDetectorRef,
     private router: Router,
-    private textSpeechProvider: TextSpeechProvider) {}
+    private textSpeechProvider: TextSpeechProvider,
+    private speechRecognitionProvider: SpeechRecognitionProvider) {}
   ngOnInit(): void {
+      this.speechRecognitionProvider.hasPermission();
     //this.getPermission();
   }
   getPermission() {

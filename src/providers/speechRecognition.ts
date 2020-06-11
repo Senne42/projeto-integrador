@@ -12,7 +12,7 @@ export class SpeechRecognitionProvider {
     }
 
     public startListening() {
-        this.speechRecognition.startListening(this.options)
+        return this.speechRecognition.startListening(this.options)
         .subscribe(
             (matches: string[]) => {
                 return matches;
@@ -24,14 +24,14 @@ export class SpeechRecognitionProvider {
     }
 
     public hasPermission() {
-        this.speechRecognition.hasPermission()
+        return this.speechRecognition.hasPermission()
         .then((hasPermission: boolean) => {
             if(!hasPermission) return this.requestPermission();
         })
     }
     
     public requestPermission() {
-        this.speechRecognition.requestPermission()
+        return this.speechRecognition.requestPermission()
         .then(
             () => {
                 return true;
