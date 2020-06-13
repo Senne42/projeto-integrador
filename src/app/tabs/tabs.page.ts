@@ -127,6 +127,11 @@ export class TabsPage implements OnInit {
 
   meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
 
+  /**
+   * Adiciona o evento, necessita das seguintes informações:
+   * Título;
+   * data(dia e mês);
+   */
   adicionarEvento(){
     this.textSpeechProvider.speak("Informe o título do evento")
       .then(res => {
@@ -137,7 +142,6 @@ export class TabsPage implements OnInit {
         this.speechRecognition.startListening(options)
       .subscribe(
         async (matches: Array < string > ) => {
-          let calendar = await this.storageProvider.onGetCalendar();
           let title = matches[0];
           this.textSpeechProvider.speak("Informe a data do evento")
       .then(res => {
@@ -157,8 +161,9 @@ export class TabsPage implements OnInit {
           endTime: new Date(2020,mes,dia,15,10),
           allDay: false,       
         }
+        let calendar = await this.storageProvider.onGetCalendar();
         calendar.events.push(evento);
-        await this.storageProvider.onSetCalendar(calendar);
+         this.storageProvider.onSetCalendar(calendar);
         this.textSpeechProvider.speak("Evento inserido com sucesso");
         this.cd.detectChanges();
         })

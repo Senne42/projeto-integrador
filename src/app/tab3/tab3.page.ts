@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, AlertController } from '@ionic/angular';
 import { LocalStorageProvider } from '../../providers/localStorage'
 import { Subscription } from 'rxjs';
 
@@ -16,9 +16,20 @@ export class Tab3Page implements OnInit {
 
     private subscription: Subscription;
 
-    constructor(private navController: NavController,
+    constructor(private navController: NavController, public alertController: AlertController,
         private storageProvider: LocalStorageProvider) {
 
+    }
+
+    async presentAlert() {
+        const alert = await this.alertController.create({
+          cssClass: 'my-custom-class',
+          header: 'Alert',
+          subHeader: 'Subtitle',
+          message: 'This is an alert message.',
+          buttons: ['OK']
+        });
+        await alert.present();
     }
 
     /**
@@ -27,7 +38,38 @@ export class Tab3Page implements OnInit {
      * Aguarda alterações no calendário;
      */
     async ngOnInit(): Promise < void > {
-        let calendar = await this.storageProvider.onGetCalendar();
+        this.eventSource = [];
+        this.calendar = {
+            mode: 'month',
+            currentDate: new Date(),
+            dateFormatter: {
+                formatMonthViewDay: function (date: Date) {
+                    return date.getDate().toString();
+                },
+                formatMonthViewDayHeader: function (date: Date) {
+                    return 'MonMH';
+                },
+                formatMonthViewTitle: function (date: Date) {
+                    return 'testMT';
+                },
+                formatWeekViewDayHeader: function (date: Date) {
+                    return 'MonWH';
+                },
+                formatWeekViewTitle: function (date: Date) {
+                    return 'testWT';
+                },
+                formatWeekViewHourColumn: function (date: Date) {
+                    return 'testWH';
+                },
+                formatDayViewHourColumn: function (date: Date) {
+                    return 'testDH';
+                },
+                formatDayViewTitle: function (date: Date) {
+                    return 'testDT';
+                }
+            }
+        }
+        const calendar = await this.storageProvider.onGetCalendar();
         if (!calendar) {
             this.storageProvider.onSetCalendar({
                 mode: this.calendar.mode,
@@ -38,46 +80,16 @@ export class Tab3Page implements OnInit {
             this.eventSource = calendar.events;
             this.calendar.mode = calendar.mode;
         }
-        this.subscription = this.storageProvider.calendarSubject.subscribe(async (res: any) => {
-            const calendar = await this.storageProvider.onGetCalendar();
-            this.eventSource = calendar.events;
-            this.calendar.mode = calendar.mode;
+        this.subscription = this.storageProvider.calendarSubject.subscribe((obj: any) => {
+            this.eventSource = obj.events;
+            this.calendar.mode = obj.mode;
         })
     }
-    eventSource = [];
+    eventSource;
     viewTitle;
 
     isToday: boolean;
-    calendar = {
-        mode: 'month',
-        currentDate: new Date(),
-        dateFormatter: {
-            formatMonthViewDay: function (date: Date) {
-                return date.getDate().toString();
-            },
-            formatMonthViewDayHeader: function (date: Date) {
-                return 'MonMH';
-            },
-            formatMonthViewTitle: function (date: Date) {
-                return 'testMT';
-            },
-            formatWeekViewDayHeader: function (date: Date) {
-                return 'MonWH';
-            },
-            formatWeekViewTitle: function (date: Date) {
-                return 'testWT';
-            },
-            formatWeekViewHourColumn: function (date: Date) {
-                return 'testWH';
-            },
-            formatDayViewHourColumn: function (date: Date) {
-                return 'testDH';
-            },
-            formatDayViewTitle: function (date: Date) {
-                return 'testDT';
-            }
-        }
-    };
+    calendar
 
     /**
      * Insere eventos aleatórios no calndário;

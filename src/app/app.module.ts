@@ -26,7 +26,11 @@ registerLocaleData(ptBr);
   imports: [BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    IonicStorageModule.forRoot()],
+    IonicStorageModule.forRoot({
+      name: '__mydb',
+      driverOrder: ['indexeddb', 'sqlite', 'websql']
+    })
+  ],
   providers: [
     StatusBar,
     SplashScreen,
