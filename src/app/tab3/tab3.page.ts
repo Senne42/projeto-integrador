@@ -38,10 +38,10 @@ export class Tab3Page implements OnInit {
             this.eventSource = calendar.events;
             this.calendar.mode = calendar.mode;
         }
-        this.subscription = this.storageProvider.calendar.subscribe((res: any) => {
-            console.log(res);
-            // this.eventSource = res.events;
-            this.calendar.mode = res.mode;
+        this.subscription = this.storageProvider.calendarSubject.subscribe(async (res: any) => {
+            const calendar = await this.storageProvider.onGetCalendar();
+            this.eventSource = calendar.events;
+            this.calendar.mode = calendar.mode;
         })
     }
     eventSource = [];

@@ -59,6 +59,9 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("adicionar lembrete")) {
                 this.router.navigate(['tabs/tab2']);
               }
+              if (this.matches[i].toLowerCase().includes("adicionar evento")) {
+                this.adicionarEvento();
+              }
             }
             //this.microfone();
           },
@@ -78,6 +81,7 @@ export class TabsPage implements OnInit {
    */
   async alteraExibicao() {
     let calendar = await this.storageProvider.onGetCalendar();
+    let mode: any;
     this.textSpeechProvider.speak("Qual seria o modo de exibição?")
       .then(res => {
         let options = {
@@ -91,21 +95,27 @@ export class TabsPage implements OnInit {
                 this.matches = matches;
                 for (let i = 0; this.matches.length > i; i++) {
                   if (this.matches[i].toLowerCase().includes("mês")) {
-                    calendar.mode = 'month';
+                    mode = 'month';
                     break;
                   }
                   if (this.matches[i].toLowerCase().includes("semana")) {
-                    calendar.mode = 'week';
+                    mode = 'week';
                     break;
                   }
                   if (this.matches[i].toLowerCase().includes("dia")) {
-                    calendar.mode = 'day';
+                    mode = 'day';
                     break;
                   }
                 }
-                await this.storageProvider.onSetCalendar(calendar);
-                this.textSpeechProvider.speak("Modo de exibição atualizado!");
-                this.cd.detectChanges();
+                if (mode){
+                  calendar.mode = mode;
+                  await this.storageProvider.onSetCalendar(calendar);
+                  this.textSpeechProvider.speak("Modo de exibição atualizado!");
+                  this.cd.detectChanges();
+                }
+                else {
+                  this.textSpeechProvider.speak("Não entendi, tente novamente");
+                }
               },
               (onerror) => {
                 console.log('error:', onerror);
@@ -113,5 +123,49 @@ export class TabsPage implements OnInit {
               }
           )
       });
+  }
+
+  meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+
+  adicionarEvento(){
+    this.textSpeechProvider.speak("Informe o título do evento")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let calendar = await this.storageProvider.onGetCalendar();
+          let title = matches[0];
+          this.textSpeechProvider.speak("Informe a data do evento")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+        let data = matches[0].split(' ');
+        let dia = parseInt(data[0]);
+        let mes = this.meses.indexOf(data[2].toLowerCase());
+        let evento = {
+          title: title,
+          startTime: new Date(2020,mes,dia,14,10),
+          endTime: new Date(2020,mes,dia,15,10),
+          allDay: false,       
+        }
+        calendar.events.push(evento);
+        await this.storageProvider.onSetCalendar(calendar);
+        this.textSpeechProvider.speak("Evento inserido com sucesso");
+        this.cd.detectChanges();
+        })
+      })
+
+        })
+      })
+
   }
 }
