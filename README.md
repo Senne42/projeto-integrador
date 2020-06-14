@@ -56,3 +56,19 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 - Alteração visual do README e adição do conteúdo trabalhado nas sprints.
 
 **Apresentação da Sprint 3:** https://youtu.be/Mq3ndyrH4Zk 
+
+## Sprint 4
+
+- Configuração para geração da aplicação(.apk): instalação do Android Studio/JDK/Gradle/Cordova.
+- Instalação e implementação básica do Data Storage.
+- Implementação do Data Storage de eventos.
+- Estudo e implementação da remoção do pop-up de reconhecimento de voz.
+- Tentativa de implementação do reconhecimento de voz sem a ação do usuário.
+- Instalação do pacote (npm) e teste básico da resposta por voz.
+- Criação do provider de reconhecimento de voz.
+- Implementação da verificação de permissão de voz.
+- Implementação da troca de exibição do calendário por comando voz.
+- Inclusão de comentários no código.
+- Implementação do comando adicionar evento.
+
+**Apresentação da Sprint 4:** https://youtu.be/yIpWhNoiYSU
