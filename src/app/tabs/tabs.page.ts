@@ -62,6 +62,9 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("adicionar evento")) {
                 this.adicionarEvento();
               }
+              if (this.matches[i].toLowerCase().includes("exibir eventos")) {
+                this.exibirEventos();
+              }
             }
             //this.microfone();
           },
@@ -172,5 +175,27 @@ export class TabsPage implements OnInit {
         })
       })
 
+  }
+
+  exibirEventos() {
+    this.textSpeechProvider.speak("Informe a data para exibição")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let data = matches[0].split(' ');
+          let dia = parseInt(data[0]);
+          let mes = this.meses.indexOf(data[2].toLowerCase());
+          let calendar = await this.storageProvider.onGetCalendar();
+          calendar.currentDate = new Date(2020,mes,dia);
+          this.storageProvider.onSetCalendar(calendar);
+          this.textSpeechProvider.speak("Data de exibição alterada");
+          this.cd.detectChanges();
+        })
+      })
   }
 }

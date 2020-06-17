@@ -41,7 +41,7 @@ export class Tab3Page implements OnInit {
         this.eventSource = [];
         this.calendar = {
             mode: 'month',
-            currentDate: new Date(),
+            currentDate: new Date(2020,5,23),
             dateFormatter: {
                 formatMonthViewDay: function (date: Date) {
                     return date.getDate().toString();
@@ -69,19 +69,23 @@ export class Tab3Page implements OnInit {
                 }
             }
         }
-        const calendar = await this.storageProvider.onGetCalendar();
+        let calendar = await this.storageProvider.onGetCalendar();
         if (!calendar) {
             this.storageProvider.onSetCalendar({
                 mode: this.calendar.mode,
+                currentDate: new Date(),
                 events: this.eventSource
             });
         }
         else{
             this.eventSource = calendar.events;
             this.calendar.mode = calendar.mode;
+            this.calendar.currentDate = calendar = new Date();
+            this.storageProvider.onSetCalendar(calendar);
         }
         this.subscription = this.storageProvider.calendarSubject.subscribe((obj: any) => {
             this.eventSource = obj.events;
+            this.calendar.currentDate = obj.currentDate;
             this.calendar.mode = obj.mode;
         })
     }
