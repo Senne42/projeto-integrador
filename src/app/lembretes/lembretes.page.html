@@ -1,9 +1,63 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>lembretes</ion-title>
+  <ion-toolbar color="dark">
+    <ion-title>
+      Lembretes
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen class="ion-padding">
+
+    <ion-card>
+      <ion-item>
+        <ion-label>Comprar pão</ion-label>
+        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label>Retirar encomenda</ion-label>
+        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
+      </ion-item>
+    </ion-card>
+
+    <ion-card>
+      <ion-item>
+        <ion-label>Consulta no dentista</ion-label>
+        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
+      </ion-item>
+    </ion-card>
+
+
+    <ion-tabs>
+
+      <ion-fab slot="bottom" class="custom-fab">
+        <ion-fab-button>
+          <ion-icon name="trash-outline"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+
+      <ion-tab-bar slot="bottom">
+    
+        <ion-tab-button tab="home">
+          <ion-icon name="home-outline"></ion-icon>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="calendar">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <ion-badge>23</ion-badge>
+        </ion-tab-button>
+    
+        <ion-tab-button tab="Reminders">
+          <ion-icon name="list-sharp"></ion-icon>
+        </ion-tab-button>
+
+        <ion-tab-button tab="mic">
+          <ion-icon name="mic-outline"></ion-icon>
+        </ion-tab-button>
+        
+      </ion-tab-bar>
+    </ion-tabs>
 
 </ion-content>
