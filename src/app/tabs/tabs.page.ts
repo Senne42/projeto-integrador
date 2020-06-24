@@ -56,14 +56,17 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("alterar exibição")) {
                 this.alteraExibicao();
               }
-              if (this.matches[i].toLowerCase().includes("adicionar lembrete")) {
-                this.router.navigate(['tabs/tab2']);
+              if (this.matches[i].toLowerCase().includes("exibir lembretes")) {
+                this.router.navigate(['tabs/lembretes']);
               }
               if (this.matches[i].toLowerCase().includes("adicionar evento")) {
                 this.adicionarEvento();
               }
               if (this.matches[i].toLowerCase().includes("exibir eventos")) {
                 this.exibirEventos();
+              }
+              if (this.matches[i].toLowerCase().includes("adicionar lembrete")) {
+                this.adicionarLembrete();
               }
             }
             //this.microfone();
@@ -194,6 +197,25 @@ export class TabsPage implements OnInit {
           calendar.currentDate = new Date(2020,mes,dia);
           this.storageProvider.onSetCalendar(calendar);
           this.textSpeechProvider.speak("Data de exibição alterada");
+          this.cd.detectChanges();
+        })
+      })
+  }
+
+  adicionarLembrete(){
+    this.textSpeechProvider.speak("Informe o lembrete que deseja adicionar")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let reminder = await this.storageProvider.onGetReminder();
+          reminder.push(matches[0])
+          this.storageProvider.onSetReminder(reminder);
+          this.textSpeechProvider.speak("Lembrete adicionado");
           this.cd.detectChanges();
         })
       })

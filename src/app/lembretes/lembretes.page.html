@@ -8,29 +8,14 @@
 
 <ion-content fullscreen class="ion-padding">
 
-    <ion-card>
+    <ion-card *ngFor="let lembrete of lembretes">
       <ion-item>
-        <ion-label>Comprar pão</ion-label>
+        <ion-label>{{lembrete}}</ion-label>
         <ion-checkbox mode="ios" slot="start"></ion-checkbox>
       </ion-item>
     </ion-card>
 
-    <ion-card>
-      <ion-item>
-        <ion-label>Retirar encomenda</ion-label>
-        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
-      </ion-item>
-    </ion-card>
-
-    <ion-card>
-      <ion-item>
-        <ion-label>Consulta no dentista</ion-label>
-        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
-      </ion-item>
-    </ion-card>
-
-
-    <ion-tabs>
+    <!-- <ion-tabs>
 
       <ion-fab slot="bottom" class="custom-fab">
         <ion-fab-button>
@@ -58,6 +43,6 @@
         </ion-tab-button>
         
       </ion-tab-bar>
-    </ion-tabs>
+    </ion-tabs> -->
 
 </ion-content>
