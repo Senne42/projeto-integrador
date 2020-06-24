@@ -68,6 +68,9 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("adicionar lembrete")) {
                 this.adicionarLembrete();
               }
+              if (this.matches[i].toLowerCase().includes("remover lembrete")) {
+                this.removerLembrete();
+              }
             }
             //this.microfone();
           },
@@ -220,4 +223,30 @@ export class TabsPage implements OnInit {
         })
       })
   }
+
+  removerLembrete(){
+    this.textSpeechProvider.speak("Informe o número do lembrete que deseja remover")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let reminder = await this.storageProvider.onGetReminder();
+          let n = parseInt(matches[0])-1;
+          if (n>=0 && n<reminder.length){
+            reminder.splice(n, 1)
+            reminder.push(matches[0])
+            this.storageProvider.onSetReminder(reminder);
+            this.textSpeechProvider.speak("Lembrete removido");
+            this.cd.detectChanges();
+          }
+          else{
+            this.textSpeechProvider.speak("Numero informado invalido");
+          }
+        })
+      })
+    }
 }

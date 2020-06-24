@@ -8,10 +8,10 @@
 
 <ion-content fullscreen class="ion-padding">
 
-    <ion-card *ngFor="let lembrete of lembretes">
+    <ion-card *ngFor="let lembrete of lembretes; let i=index">
       <ion-item>
-        <ion-label>{{lembrete}}</ion-label>
-        <ion-checkbox mode="ios" slot="start"></ion-checkbox>
+        <ion-label>{{i+1}} - {{lembrete}}</ion-label>
+        <!-- <ion-checkbox mode="ios" slot="start"></ion-checkbox> -->
       </ion-item>
     </ion-card>
 
