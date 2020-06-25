@@ -71,6 +71,13 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("remover lembrete")) {
                 this.removerLembrete();
               }
+              if (this.matches[i].toLowerCase().includes("remover evento")) {
+                // this.removerEvento();
+              }
+              if (this.matches[i].toLowerCase().includes("exibir comandos")) {
+                //this.exibirComandos();
+              }
+
             }
             //this.microfone();
           },
@@ -248,4 +255,12 @@ export class TabsPage implements OnInit {
         })
       })
     }
+
+  removerEvento(){
+
+  }
+
+  exibirComandos(){
+    
+  }
 }
