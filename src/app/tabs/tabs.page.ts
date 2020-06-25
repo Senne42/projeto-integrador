@@ -238,7 +238,6 @@ export class TabsPage implements OnInit {
           let n = parseInt(matches[0])-1;
           if (n>=0 && n<reminder.length){
             reminder.splice(n, 1)
-            reminder.push(matches[0])
             this.storageProvider.onSetReminder(reminder);
             this.textSpeechProvider.speak("Lembrete removido");
             this.cd.detectChanges();
