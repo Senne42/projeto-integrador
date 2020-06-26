@@ -12,12 +12,8 @@ const routes: Routes = [
         loadChildren: () => import('../lembretes/lembretes.module').then(m => m.LembretesPageModule)
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
-      },
-      {
-        path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        path: 'calendario',
+        loadChildren: () => import('../calendario/calendario.module').then(m => m.CalendarioPageModule)
       },
       {
         path: '',

@@ -7,10 +7,9 @@ const routes: Routes = [
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
   {
-    path: 'comandos',
-    loadChildren: () => import('./comandos/comandos.module').then( m => m.ComandosPageModule)
-  }
-
+    path: 'calendario',
+    loadChildren: () => import('./calendario/calendario.module').then( m => m.CalendarioPageModule)
+  },
 ];
 @NgModule({
   imports: [

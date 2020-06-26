@@ -58,7 +58,7 @@ export class TabsPage implements OnInit {
             this.matches = matches;
             for (let i = 0; this.matches.length > i; i++) {
               if (this.matches[i].toLowerCase().includes("abrir calendário")) {
-                this.router.navigate(['tabs/tab3']);
+                this.router.navigate(['tabs/calendario']);
               }
               if (this.matches[i].toLowerCase().includes("alterar exibição")) {
                 this.alteraExibicao();
