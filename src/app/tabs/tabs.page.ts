@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { TextSpeechProvider } from 'src/providers/textSpeech';
 import { SpeechRecognitionProvider } from 'src/providers/speechRecognition';
 import { LocalStorageProvider } from 'src/providers/localStorage';
+import { MenuController } from '@ionic/angular';
 
 
 @Component({
@@ -18,6 +19,7 @@ import { LocalStorageProvider } from 'src/providers/localStorage';
 export class TabsPage implements OnInit {
   matches: String[];
   constructor(
+    private menu: MenuController,
     private speechRecognition: SpeechRecognition,
     private cd: ChangeDetectorRef,
     private router: Router,
@@ -31,6 +33,11 @@ export class TabsPage implements OnInit {
    */
   ngOnInit(): void {
     this.speechRecognitionProvider.hasPermission();
+  }
+  
+  openFirst() {
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
   }
 
   /**
@@ -75,7 +82,7 @@ export class TabsPage implements OnInit {
                 // this.removerEvento();
               }
               if (this.matches[i].toLowerCase().includes("exibir comandos")) {
-                //this.exibirComandos();
+                this.exibirComandos();
               }
 
             }
@@ -261,6 +268,6 @@ export class TabsPage implements OnInit {
   }
 
   exibirComandos(){
-    
+    this.openFirst();
   }
 }
