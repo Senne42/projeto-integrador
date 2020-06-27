@@ -72,3 +72,19 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 - Implementação do comando adicionar evento.
 
 **Apresentação da Sprint 4:** https://youtu.be/yIpWhNoiYSU
+
+## Sprint 5
+
+- Implementação do comando de voz para alterar o dia dos eventos exibidos.
+- Criação da tela de lembretes.
+- Criação da tela de comandos.
+- Definição do design padrão do aplicativo.
+- Implementação do comando de voz adicionar lembrete.
+- Implementação do comando de voz excluir lembrete.
+- Inclusão de novos elementos na tela comandos.
+- Implementação da função exibir comandos.
+- Limpeza no código da aplicação.
+- Inclusão de um header padrão para todas as páginas da aplicação.
+- Melhorias visuais nas telas.
+- Implementação do comando de voz remover evento.
+- Implementação do comando de voz para remover todos os lembretes/eventos.
