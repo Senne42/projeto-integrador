@@ -79,10 +79,16 @@ export class TabsPage implements OnInit {
                 this.removerLembrete();
               }
               if (this.matches[i].toLowerCase().includes("remover evento")) {
-                // this.removerEvento();
+                this.removerEvento();
               }
               if (this.matches[i].toLowerCase().includes("exibir comandos")) {
                 this.exibirComandos();
+              }
+              if (this.matches[i].toLowerCase().includes("limpar calendário")) {
+                this.limparCalendario();
+              }
+              if (this.matches[i].toLowerCase().includes("limpar lembretes")) {
+                this.limparLembretes();
               }
 
             }
@@ -178,17 +184,22 @@ export class TabsPage implements OnInit {
         let data = matches[0].split(' ');
         let dia = parseInt(data[0]);
         let mes = this.meses.indexOf(data[2].toLowerCase());
-        let evento = {
-          title: title,
-          startTime: new Date(2020,mes,dia,14,10),
-          endTime: new Date(2020,mes,dia,15,10),
-          allDay: false,       
+        if(dia >= 1 && dia <= 31 && mes != -1){
+          let evento = {
+            title: title,
+            startTime: new Date(2020,mes,dia),
+            endTime: new Date(2020,mes,dia),
+            allDay: true,
+          }
+          let calendar = await this.storageProvider.onGetCalendar();
+          calendar.events.push(evento);
+          this.storageProvider.onSetCalendar(calendar);
+          this.textSpeechProvider.speak("Evento inserido com sucesso");
+          this.cd.detectChanges();
         }
-        let calendar = await this.storageProvider.onGetCalendar();
-        calendar.events.push(evento);
-         this.storageProvider.onSetCalendar(calendar);
-        this.textSpeechProvider.speak("Evento inserido com sucesso");
-        this.cd.detectChanges();
+        else{
+          this.textSpeechProvider.speak("Não foi possível inserir o evento");
+        }
         })
       })
 
@@ -264,7 +275,107 @@ export class TabsPage implements OnInit {
     }
 
   removerEvento(){
+    this.textSpeechProvider.speak("Informe a data do evento")
+    .then(res => {
+      let options = {
+        language: 'pt-BR',
+        showPopup: true, 
+      }
+      this.speechRecognition.startListening(options)
+    .subscribe(
+      async (matches: Array < string > ) => {
+        let data = matches[0].split(' ');
+        let dia = parseInt(data[0]);
+        let mes = this.meses.indexOf(data[2].toLowerCase());
+        this.textSpeechProvider.speak("Informe o título do evento")
+        .then(res => {
+          let options = {
+            language: 'pt-BR',
+            showPopup: true, 
+          }
+          this.speechRecognition.startListening(options)
+        .subscribe(
+          async (matches: Array < string > ) => {
+          let calendar = await this.storageProvider.onGetCalendar();
+          let dataInicial = new Date(2020,mes,dia);
+          let dataFinal = new Date(2020,mes,dia);
+          dataFinal.setDate(dataFinal.getDate()+1);
+          let eventoExcluido = false;
+          for(let i = 0;i<calendar.events.length;i++){
+              if(calendar.events[i].startTime >= dataInicial &&
+                 calendar.events[i].startTime <= dataFinal){
+                  for(let u = 0;u < matches.length;u++){
+                      if(calendar.events[i].title.toLowerCase().includes(matches[u])){
+                        calendar.events.splice(i,1);
+                        eventoExcluido = true;
+                        this.storageProvider.onSetCalendar(calendar);
+                        break;
+                      }
+                  }
+                }
+          if(eventoExcluido) break;      
+          }
+          if(eventoExcluido) this.textSpeechProvider.speak("Evento excluido com sucesso");
+          else this.textSpeechProvider.speak("Evento não encontrado");
+          this.cd.detectChanges();
+          })
+        })
+      })
+    })
+  }
 
+  limparLembretes(){
+    this.textSpeechProvider.speak("Todos os lembretes serão apagados, deseja continuar?")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let limpeza = false;
+          for(let i = 0;i<matches.length;i++){
+            if(matches[i].toLowerCase().includes("sim")){
+              this.storageProvider.onSetReminder([]);
+              limpeza = true;
+              break;
+            }
+          }
+          if(limpeza) this.textSpeechProvider.speak("Lembretes excluidos com sucesso");
+          else this.textSpeechProvider.speak("Operação cancelada");
+          this.cd.detectChanges();
+        })
+      })
+  }
+  
+  limparCalendario(){
+    this.textSpeechProvider.speak("Todos os eventos serão apagados, deseja continuar?")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          let limpeza = false;
+          for(let i = 0;i<matches.length;i++){
+            if(matches[i].toLowerCase().includes("sim")){
+              let calendar = await this.storageProvider.onGetCalendar();
+              calendar.events = [];
+              calendar.mode = 'month';
+              calendar.currentDate = new Date();
+              this.storageProvider.onSetCalendar(calendar);
+              limpeza = true;
+              break;
+            }
+          }
+          if(limpeza) this.textSpeechProvider.speak("Eventos excluidos com sucesso");
+          else this.textSpeechProvider.speak("Operação cancelada");
+          this.cd.detectChanges();
+        })
+      })
   }
 
   exibirComandos(){
