@@ -18,13 +18,17 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 
 ### Funcionalidades do Calendário interativo:
 
-1. Abrir calendario
-2. Abrir lembretes do dia
-3. Criar lembrete
-4. Selecionar data
-5. Deletar evento
-6. Editar evento
-7. Fechar calendário
+1. Abir calendário
+2. Alterar exibição
+3. Adicionar evento
+4. Remover evento
+5. Exibir eventos
+6. Limpar calendário
+7. Exibir lembretes
+8. Adicionar lembretes
+9. Remover lembrete
+10. Limpar lembretes
+11. Exibir comandos
 
 ## Sprint 1
 
