@@ -1,17 +1,18 @@
 <ion-header>
-  <ion-toolbar>
-      <ion-title>{{viewTitle}}</ion-title>
-      <ion-buttons end>
-          <button ion-button [disabled]="isToday" (click)="today()">Today</button>
-          <button ion-button (click)="changeMode('month')">M</button>
-          <button ion-button (click)="changeMode('week')">W</button>
-          <button ion-button (click)="changeMode('day')">D</button>
-          <button ion-button (click)="loadEvents()">Load Events</button>
-      </ion-buttons>
-  </ion-toolbar>
+    <ion-toolbar color="tertiary" mode="ios">
+        <ion-buttons slot="start">
+            <ion-button>
+                <ion-icon name="hardware-chip-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons (click)="abreMenu()" slot="end">
+            <ion-menu-button auto-hide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>M.A.I.A</ion-title>
+    </ion-toolbar>
 </ion-header>
-
-<ion-content>
+<ion-content fullscreen class="ion-padding">
+    <p class="titulo">{{viewTitle}}</p>
     <calendar [eventSource]="eventSource"
               [calendarMode]="calendar.mode"
               [currentDate]="calendar.currentDate"

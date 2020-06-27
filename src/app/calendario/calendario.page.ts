@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavController, AlertController } from '@ionic/angular';
+import { NavController, AlertController, MenuController } from '@ionic/angular';
 import { LocalStorageProvider } from '../../providers/localStorage'
 import { Subscription } from 'rxjs';
 
@@ -16,7 +16,7 @@ export class CalendarioPage implements OnInit {
   private subscription: Subscription;
 
   constructor(private navController: NavController, public alertController: AlertController,
-      private storageProvider: LocalStorageProvider) {
+      private storageProvider: LocalStorageProvider, private menu: MenuController,) {
 
   }
 
@@ -40,7 +40,7 @@ export class CalendarioPage implements OnInit {
       this.eventSource = [];
       this.calendar = {
           mode: 'month',
-          currentDate: new Date(2020,5,23),
+          currentDate: new Date(),
           dateFormatter: {
               formatMonthViewDay: function (date: Date) {
                   return date.getDate().toString();
@@ -79,7 +79,7 @@ export class CalendarioPage implements OnInit {
       else{
           this.eventSource = calendar.events;
           this.calendar.mode = calendar.mode;
-          this.calendar.currentDate = calendar = new Date();
+          this.calendar.currentDate = calendar.currentDate = new Date();
           this.storageProvider.onSetCalendar(calendar);
       }
       this.subscription = this.storageProvider.calendarSubject.subscribe((obj: any) => {
@@ -93,6 +93,11 @@ export class CalendarioPage implements OnInit {
 
   isToday: boolean;
   calendar
+
+  abreMenu(){
+    this.menu.enable(true, 'first');
+    this.menu.open('first');
+  }
 
   /**
    * Insere eventos aleatórios no calndário;

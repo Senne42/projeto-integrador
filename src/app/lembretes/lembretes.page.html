@@ -1,48 +1,24 @@
-<ion-header>
-  <ion-toolbar color="dark">
-    <ion-title>
-      Lembretes
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-toolbar color="tertiary" mode="ios">
+  <ion-buttons slot="start">
+    <ion-button>
+      <ion-icon name="hardware-chip-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons (click)="abreMenu()" slot="end">
+    <ion-menu-button auto-hide="false"></ion-menu-button>
+  </ion-buttons>
+  <ion-title>M.A.I.A</ion-title>
+</ion-toolbar>
 
 <ion-content fullscreen class="ion-padding">
-
     <ion-card *ngFor="let lembrete of lembretes; let i=index">
       <ion-item>
-        <ion-label>{{i+1}} - {{lembrete}}</ion-label>
-        <!-- <ion-checkbox mode="ios" slot="start"></ion-checkbox> -->
+        <p>{{i+1}} - {{lembrete}}</p>
       </ion-item>
     </ion-card>
-
-    <!-- <ion-tabs>
-
-      <ion-fab slot="bottom" class="custom-fab">
-        <ion-fab-button>
-          <ion-icon name="trash-outline"></ion-icon>
-        </ion-fab-button>
-      </ion-fab>
-
-      <ion-tab-bar slot="bottom">
-    
-        <ion-tab-button tab="home">
-          <ion-icon name="home-outline"></ion-icon>
-        </ion-tab-button>
-    
-        <ion-tab-button tab="calendar">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <ion-badge>23</ion-badge>
-        </ion-tab-button>
-    
-        <ion-tab-button tab="Reminders">
-          <ion-icon name="list-sharp"></ion-icon>
-        </ion-tab-button>
-
-        <ion-tab-button tab="mic">
-          <ion-icon name="mic-outline"></ion-icon>
-        </ion-tab-button>
-        
-      </ion-tab-bar>
-    </ion-tabs> -->
-
+    <ion-card *ngIf="lembretes.length == 0">
+      <ion-item>
+        <p>Você não possui lembretes! :(</p>
+      </ion-item>
+    </ion-card>
 </ion-content>
