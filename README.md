@@ -18,14 +18,14 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 
 ### Funcionalidades do Calendário interativo:
 
-1. Abir calendário
+1. Abrir calendário
 2. Alterar exibição
 3. Adicionar evento
 4. Remover evento
 5. Exibir eventos
 6. Limpar calendário
 7. Exibir lembretes
-8. Adicionar lembretes
+8. Adicionar lembrete
 9. Remover lembrete
 10. Limpar lembretes
 11. Exibir comandos

@@ -198,7 +198,7 @@ export class TabsPage implements OnInit {
           this.cd.detectChanges();
         }
         else{
-          this.textSpeechProvider.speak("Não foi possível inserir o evento");
+          this.textSpeechProvider.speak("Data informada inválida");
         }
         })
       })
@@ -221,11 +221,16 @@ export class TabsPage implements OnInit {
           let data = matches[0].split(' ');
           let dia = parseInt(data[0]);
           let mes = this.meses.indexOf(data[2].toLowerCase());
-          let calendar = await this.storageProvider.onGetCalendar();
-          calendar.currentDate = new Date(2020,mes,dia);
-          this.storageProvider.onSetCalendar(calendar);
-          this.textSpeechProvider.speak("Data de exibição alterada");
-          this.cd.detectChanges();
+          if(dia >= 1 && dia <= 31 && mes != -1) {
+            let calendar = await this.storageProvider.onGetCalendar();
+            calendar.currentDate = new Date(2020,mes,dia);
+            this.storageProvider.onSetCalendar(calendar);
+            this.textSpeechProvider.speak("Data de exibição alterada");
+            this.cd.detectChanges();
+          }
+          else {
+            this.textSpeechProvider.speak("Data informada inválida");
+          }
         })
       })
   }
@@ -287,39 +292,40 @@ export class TabsPage implements OnInit {
         let data = matches[0].split(' ');
         let dia = parseInt(data[0]);
         let mes = this.meses.indexOf(data[2].toLowerCase());
-        this.textSpeechProvider.speak("Informe o título do evento")
+        if(dia >= 1 && dia <= 31 && mes != -1){
+          this.textSpeechProvider.speak("Informe o título do evento")
         .then(res => {
           let options = {
             language: 'pt-BR',
             showPopup: true, 
           }
           this.speechRecognition.startListening(options)
-        .subscribe(
+          .subscribe(
           async (matches: Array < string > ) => {
           let calendar = await this.storageProvider.onGetCalendar();
           let dataInicial = new Date(2020,mes,dia);
-          let dataFinal = new Date(2020,mes,dia);
-          dataFinal.setDate(dataFinal.getDate()+1);
           let eventoExcluido = false;
           for(let i = 0;i<calendar.events.length;i++){
-              if(calendar.events[i].startTime >= dataInicial &&
-                 calendar.events[i].startTime <= dataFinal){
+              if(calendar.events[i].startTime.getDate() == dataInicial.getDate() &&
+                 calendar.events[i].startTime.getMonth() == dataInicial.getMonth()){
                   for(let u = 0;u < matches.length;u++){
                       if(calendar.events[i].title.toLowerCase().includes(matches[u])){
                         calendar.events.splice(i,1);
                         eventoExcluido = true;
                         this.storageProvider.onSetCalendar(calendar);
-                        break;
                       }
                   }
-                }
-          if(eventoExcluido) break;      
+                }      
           }
           if(eventoExcluido) this.textSpeechProvider.speak("Evento excluido com sucesso");
           else this.textSpeechProvider.speak("Evento não encontrado");
           this.cd.detectChanges();
           })
         })
+        }
+        else {
+          this.textSpeechProvider.speak("Data informada inválida");
+        }
       })
     })
   }
