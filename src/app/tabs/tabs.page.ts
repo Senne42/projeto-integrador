@@ -194,18 +194,32 @@ export class TabsPage implements OnInit {
           let calendar = await this.storageProvider.onGetCalendar();
           calendar.events.push(evento);
           this.storageProvider.onSetCalendar(calendar);
-          this.textSpeechProvider.speak("Evento inserido com sucesso");
           this.cd.detectChanges();
+          this.textSpeechProvider.speak("Evento inserido com sucesso, deseja adicionar outro evento?")
+            .then(res => {
+              let options = {
+                language: 'pt-BR',
+                showPopup: true, 
+              }
+              this.speechRecognition.startListening(options)
+            .subscribe(
+              async (matches: Array < string > ) => {
+                for(let i = 0;i<matches.length;i++){
+                  if(matches[i].toLowerCase().includes("sim")){
+                    this.adicionarEvento();
+                    break;
+                  }
+                }
+              })
+            })
         }
         else{
           this.textSpeechProvider.speak("Data informada inválida");
         }
         })
       })
-
-        })
-      })
-
+    })
+  })
   }
 
   exibirEventos() {
@@ -248,8 +262,24 @@ export class TabsPage implements OnInit {
           let reminder = await this.storageProvider.onGetReminder();
           reminder.push(matches[0])
           this.storageProvider.onSetReminder(reminder);
-          this.textSpeechProvider.speak("Lembrete adicionado");
           this.cd.detectChanges();
+          this.textSpeechProvider.speak("Lembrete adicionado, deseja adicionar outro lembrete?")
+            .then(res => {
+              let options = {
+                language: 'pt-BR',
+                showPopup: true, 
+              }
+              this.speechRecognition.startListening(options)
+            .subscribe(
+              async (matches: Array < string > ) => {
+                for(let i = 0;i<matches.length;i++){
+                  if(matches[i].toLowerCase().includes("sim")){
+                    this.adicionarLembrete();
+                    break;
+                  }
+                }
+              })
+            })
         })
       })
   }
