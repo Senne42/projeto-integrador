@@ -90,6 +90,9 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("limpar lembretes")) {
                 this.limparLembretes();
               }
+              if (this.matches[i].toLowerCase().includes("editar lembrete")) {
+                this.editarLembrete();
+              }
 
             }
             //this.microfone();
@@ -308,6 +311,42 @@ export class TabsPage implements OnInit {
         })
       })
     }
+
+    editarLembrete(){
+      this.textSpeechProvider.speak("Informe o número do lembrete que deseja editar")
+        .then(res => {
+          let options = {
+            language: 'pt-BR',
+            showPopup: true, 
+          }
+          this.speechRecognition.startListening(options)
+        .subscribe(
+          async (matches: Array < string > ) => {
+            let reminder = await this.storageProvider.onGetReminder();
+            let n = parseInt(matches[0])-1;
+            if (n>=0 && n<reminder.length){
+              this.textSpeechProvider.speak("Informe a nova descrição do lembrete")
+              .then(res => {
+                let options = {
+                  language: 'pt-BR',
+                  showPopup: true, 
+                }
+                this.speechRecognition.startListening(options)
+              .subscribe(
+                async (matches: Array < string > ) => {
+                  reminder[n]= matches[0];
+                  this.storageProvider.onSetReminder(reminder);
+                  this.textSpeechProvider.speak("Lembrete alterado");
+                  this.cd.detectChanges();
+                })
+              })
+            }
+            else{
+              this.textSpeechProvider.speak("Numero informado invalido");
+            }
+          })
+        })
+      }
 
   removerEvento(){
     this.textSpeechProvider.speak("Informe a data do evento")
