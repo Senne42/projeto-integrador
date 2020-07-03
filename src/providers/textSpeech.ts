@@ -21,4 +21,13 @@ export class TextSpeechProvider {
         .then(() => console.log('Success'))
         .catch((reason: any) => console.log(reason));
     }
+
+    public speakIngles(text: string){
+        return this.tts.speak({
+            text: text,
+            locale: 'en-US',
+        })
+        .then(() => console.log('Success'))
+        .catch((reason: any) => console.log(reason));
+    }
 }

@@ -18,6 +18,8 @@ import { registerLocaleData } from '@angular/common'; //import pra deixar a apli
 import ptBr from '@angular/common/locales/pt';
 import { TextSpeechProvider } from 'src/providers/textSpeech';
 import { SpeechRecognitionProvider } from 'src/providers/speechRecognition';
+import { HttpClientModule } from '@angular/common/http';
+import { FilmeProvider } from 'src/providers/filme';
 registerLocaleData(ptBr);
 
 @NgModule({
@@ -26,6 +28,7 @@ registerLocaleData(ptBr);
   imports: [BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
+    HttpClientModule,
     IonicStorageModule.forRoot({
       name: '__mydb',
       driverOrder: ['indexeddb', 'sqlite', 'websql']
@@ -39,6 +42,7 @@ registerLocaleData(ptBr);
     LocalStorageProvider,
     TextSpeechProvider,
     SpeechRecognitionProvider,
+    FilmeProvider,
     { provide: LOCALE_ID, useValue: 'pt-BR' },
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],

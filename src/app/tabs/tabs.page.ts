@@ -5,6 +5,7 @@ import { TextSpeechProvider } from 'src/providers/textSpeech';
 import { SpeechRecognitionProvider } from 'src/providers/speechRecognition';
 import { LocalStorageProvider } from 'src/providers/localStorage';
 import { MenuController } from '@ionic/angular';
+import { FilmeProvider } from 'src/providers/filme';
 
 
 @Component({
@@ -19,6 +20,7 @@ import { MenuController } from '@ionic/angular';
 export class TabsPage implements OnInit {
   matches: String[];
   constructor(
+    private filmeProvider: FilmeProvider,
     private menu: MenuController,
     private speechRecognition: SpeechRecognition,
     private cd: ChangeDetectorRef,
@@ -32,6 +34,8 @@ export class TabsPage implements OnInit {
    * caso não, ele solicita;
    */
   ngOnInit(): void {
+    this.filmeProvider.getFilme()
+    .then((res : any) => {console.log(res)})
     this.speechRecognitionProvider.hasPermission();
   }
   
@@ -92,6 +96,9 @@ export class TabsPage implements OnInit {
               }
               if (this.matches[i].toLowerCase().includes("editar lembrete")) {
                 this.editarLembrete();
+              }
+              if (this.matches[i].toLowerCase().includes("recomende um filme")) {
+                this.recomendaFilme();
               }
 
             }
@@ -455,5 +462,29 @@ export class TabsPage implements OnInit {
 
   exibirComandos(){
     this.openFirst();
+  }
+  recomendaFilme(){
+    this.filmeProvider.getFilme()
+    .then((res : any) => {
+      this.textSpeechProvider.speakIngles(res.filme)
+      .then(res => {
+        this.textSpeechProvider.speak("Deseja que recomende outro filme?")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true, 
+        }
+        this.speechRecognition.startListening(options)
+      .subscribe(
+        async (matches: Array < string > ) => {
+          for(let i = 0;i<matches.length;i++){
+            if(matches[i].toLowerCase().includes("sim")){
+              this.recomendaFilme();
+              break;
+            }
+          }
+        })
+      })})
+    })
   }
 }
