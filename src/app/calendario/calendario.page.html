@@ -11,10 +11,12 @@
         <ion-title>M.A.I.A</ion-title>
     </ion-toolbar>
 </ion-header>
-<ion-content fullscreen class="ion-padding">
+<ion-content fullscreen class="ion-padding" style= "max-height: 100%;">
     <p class="titulo">{{viewTitle}}</p>
-    <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
-        (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
-        (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
-    </calendar>
+    <div>
+        <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+            (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+            (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
+         </calendar>
+    </div>
 </ion-content>

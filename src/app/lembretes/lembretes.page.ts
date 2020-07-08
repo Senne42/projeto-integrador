@@ -22,9 +22,15 @@ export class LembretesPage implements OnInit {
       this.storageProvider.onSetReminder([]);
     } else {
       this.lembretes = reminder;
+      for (let i = 0; i<this.lembretes.length; i++) {
+        this.lembretes[i] = this.lembretes[i].charAt(0).toUpperCase()+this.lembretes[i].slice(1);
+      }
     }
     this.subscription = this.storageProvider.reminderSubject.subscribe((obj: any) => {
       this.lembretes = obj;
+      for (let i = 0; i<this.lembretes.length; i++) {
+        this.lembretes[i] = this.lembretes[i].charAt(0).toUpperCase()+this.lembretes[i].slice(1);
+      }
     })
   }
 
