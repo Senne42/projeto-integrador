@@ -28,17 +28,19 @@ export class TabsPage implements OnInit {
     private textSpeechProvider: TextSpeechProvider,
     private speechRecognitionProvider: SpeechRecognitionProvider,
     private storageProvider: LocalStorageProvider) {}
-  
+
   /**
    * Verifica se a aplicação possui permisão para o uso do microfone,
    * caso não, ele solicita;
    */
   ngOnInit(): void {
     this.filmeProvider.getFilme()
-    .then((res : any) => {console.log(res)})
+      .then((res: any) => {
+        console.log(res)
+      })
     this.speechRecognitionProvider.hasPermission();
   }
-  
+
   openFirst() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
@@ -100,6 +102,9 @@ export class TabsPage implements OnInit {
               if (this.matches[i].toLowerCase().includes("recomende um filme")) {
                 this.recomendaFilme();
               }
+              if (this.matches[i].toLowerCase().includes("editar evento")) {
+                this.editarEvento();
+              }
 
             }
             //this.microfone();
@@ -146,13 +151,12 @@ export class TabsPage implements OnInit {
                     break;
                   }
                 }
-                if (mode){
+                if (mode) {
                   calendar.mode = mode;
                   await this.storageProvider.onSetCalendar(calendar);
                   this.textSpeechProvider.speak("Modo de exibição atualizado!");
                   this.cd.detectChanges();
-                }
-                else {
+                } else {
                   this.textSpeechProvider.speak("Não entendi, tente novamente");
                 }
               },
@@ -171,65 +175,64 @@ export class TabsPage implements OnInit {
    * Título;
    * data(dia e mês);
    */
-  adicionarEvento(){
+  adicionarEvento() {
     this.textSpeechProvider.speak("Informe o título do evento")
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let title = matches[0];
-          this.textSpeechProvider.speak("Informe a data do evento")
-      .then(res => {
-        let options = {
-          language: 'pt-BR',
-          showPopup: true, 
-        }
-        this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-        let data = matches[0].split(' ');
-        let dia = parseInt(data[0]);
-        let mes = this.meses.indexOf(data[2].toLowerCase());
-        if(dia >= 1 && dia <= 31 && mes != -1){
-          let evento = {
-            title: title,
-            startTime: new Date(2020,mes,dia),
-            endTime: new Date(2020,mes,dia),
-            allDay: true,
-          }
-          let calendar = await this.storageProvider.onGetCalendar();
-          calendar.events.push(evento);
-          this.storageProvider.onSetCalendar(calendar);
-          this.cd.detectChanges();
-          this.textSpeechProvider.speak("Evento inserido com sucesso, deseja adicionar outro evento?")
-            .then(res => {
-              let options = {
-                language: 'pt-BR',
-                showPopup: true, 
-              }
-              this.speechRecognition.startListening(options)
-            .subscribe(
-              async (matches: Array < string > ) => {
-                for(let i = 0;i<matches.length;i++){
-                  if(matches[i].toLowerCase().includes("sim")){
-                    this.adicionarEvento();
-                    break;
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let title = matches[0];
+              this.textSpeechProvider.speak("Informe a data do evento")
+                .then(res => {
+                  let options = {
+                    language: 'pt-BR',
+                    showPopup: true,
                   }
-                }
-              })
+                  this.speechRecognition.startListening(options)
+                    .subscribe(
+                      async (matches: Array < string > ) => {
+                        let data = matches[0].split(' ');
+                        let dia = parseInt(data[0]);
+                        let mes = this.meses.indexOf(data[2].toLowerCase());
+                        if (dia >= 1 && dia <= 31 && mes != -1) {
+                          let evento = {
+                            title: title,
+                            startTime: new Date(2020, mes, dia),
+                            endTime: new Date(2020, mes, dia),
+                            allDay: true,
+                          }
+                          let calendar = await this.storageProvider.onGetCalendar();
+                          calendar.events.push(evento);
+                          this.storageProvider.onSetCalendar(calendar);
+                          this.cd.detectChanges();
+                          this.textSpeechProvider.speak("Evento inserido com sucesso, deseja adicionar outro evento?")
+                            .then(res => {
+                              let options = {
+                                language: 'pt-BR',
+                                showPopup: true,
+                              }
+                              this.speechRecognition.startListening(options)
+                                .subscribe(
+                                  async (matches: Array < string > ) => {
+                                    for (let i = 0; i < matches.length; i++) {
+                                      if (matches[i].toLowerCase().includes("sim")) {
+                                        this.adicionarEvento();
+                                        break;
+                                      }
+                                    }
+                                  })
+                            })
+                        } else {
+                          this.textSpeechProvider.speak("Data informada inválida");
+                        }
+                      })
+                })
             })
-        }
-        else{
-          this.textSpeechProvider.speak("Data informada inválida");
-        }
-        })
       })
-    })
-  })
   }
 
   exibirEventos() {
@@ -237,254 +240,343 @@ export class TabsPage implements OnInit {
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let data = matches[0].split(' ');
-          let dia = parseInt(data[0]);
-          let mes = this.meses.indexOf(data[2].toLowerCase());
-          if(dia >= 1 && dia <= 31 && mes != -1) {
-            let calendar = await this.storageProvider.onGetCalendar();
-            calendar.currentDate = new Date(2020,mes,dia);
-            this.storageProvider.onSetCalendar(calendar);
-            this.textSpeechProvider.speak("Data de exibição alterada");
-            this.cd.detectChanges();
-          }
-          else {
-            this.textSpeechProvider.speak("Data informada inválida");
-          }
-        })
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let data = matches[0].split(' ');
+              let dia = parseInt(data[0]);
+              let mes = this.meses.indexOf(data[2].toLowerCase());
+              if (dia >= 1 && dia <= 31 && mes != -1) {
+                let calendar = await this.storageProvider.onGetCalendar();
+                calendar.currentDate = new Date(2020, mes, dia);
+                this.storageProvider.onSetCalendar(calendar);
+                this.textSpeechProvider.speak("Data de exibição alterada");
+                this.cd.detectChanges();
+              } else {
+                this.textSpeechProvider.speak("Data informada inválida");
+              }
+            })
       })
   }
 
-  adicionarLembrete(){
+  adicionarLembrete() {
     this.textSpeechProvider.speak("Informe o lembrete que deseja adicionar")
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let reminder = await this.storageProvider.onGetReminder();
-          reminder.push(matches[0])
-          this.storageProvider.onSetReminder(reminder);
-          this.cd.detectChanges();
-          this.textSpeechProvider.speak("Lembrete adicionado, deseja adicionar outro lembrete?")
-            .then(res => {
-              let options = {
-                language: 'pt-BR',
-                showPopup: true, 
-              }
-              this.speechRecognition.startListening(options)
-            .subscribe(
-              async (matches: Array < string > ) => {
-                for(let i = 0;i<matches.length;i++){
-                  if(matches[i].toLowerCase().includes("sim")){
-                    this.adicionarLembrete();
-                    break;
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let reminder = await this.storageProvider.onGetReminder();
+              reminder.push(matches[0])
+              this.storageProvider.onSetReminder(reminder);
+              this.cd.detectChanges();
+              this.textSpeechProvider.speak("Lembrete adicionado, deseja adicionar outro lembrete?")
+                .then(res => {
+                  let options = {
+                    language: 'pt-BR',
+                    showPopup: true,
                   }
-                }
-              })
+                  this.speechRecognition.startListening(options)
+                    .subscribe(
+                      async (matches: Array < string > ) => {
+                        for (let i = 0; i < matches.length; i++) {
+                          if (matches[i].toLowerCase().includes("sim")) {
+                            this.adicionarLembrete();
+                            break;
+                          }
+                        }
+                      })
+                })
             })
-        })
       })
   }
 
-  removerLembrete(){
+  removerLembrete() {
     this.textSpeechProvider.speak("Informe o número do lembrete que deseja remover")
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let reminder = await this.storageProvider.onGetReminder();
-          let n = parseInt(matches[0])-1;
-          if (n>=0 && n<reminder.length){
-            reminder.splice(n, 1)
-            this.storageProvider.onSetReminder(reminder);
-            this.textSpeechProvider.speak("Lembrete removido");
-            this.cd.detectChanges();
-          }
-          else{
-            this.textSpeechProvider.speak("Numero informado invalido");
-          }
-        })
-      })
-    }
-
-    editarLembrete(){
-      this.textSpeechProvider.speak("Informe o número do lembrete que deseja editar")
-        .then(res => {
-          let options = {
-            language: 'pt-BR',
-            showPopup: true, 
-          }
-          this.speechRecognition.startListening(options)
-        .subscribe(
-          async (matches: Array < string > ) => {
-            let reminder = await this.storageProvider.onGetReminder();
-            let n = parseInt(matches[0])-1;
-            if (n>=0 && n<reminder.length){
-              this.textSpeechProvider.speak("Informe a nova descrição do lembrete")
-              .then(res => {
-                let options = {
-                  language: 'pt-BR',
-                  showPopup: true, 
-                }
-                this.speechRecognition.startListening(options)
-              .subscribe(
-                async (matches: Array < string > ) => {
-                  reminder[n]= matches[0];
-                  this.storageProvider.onSetReminder(reminder);
-                  this.textSpeechProvider.speak("Lembrete alterado");
-                  this.cd.detectChanges();
-                })
-              })
-            }
-            else{
-              this.textSpeechProvider.speak("Numero informado invalido");
-            }
-          })
-        })
-      }
-
-  removerEvento(){
-    this.textSpeechProvider.speak("Informe a data do evento")
-    .then(res => {
-      let options = {
-        language: 'pt-BR',
-        showPopup: true, 
-      }
-      this.speechRecognition.startListening(options)
-    .subscribe(
-      async (matches: Array < string > ) => {
-        let data = matches[0].split(' ');
-        let dia = parseInt(data[0]);
-        let mes = this.meses.indexOf(data[2].toLowerCase());
-        if(dia >= 1 && dia <= 31 && mes != -1){
-          this.textSpeechProvider.speak("Informe o título do evento")
-        .then(res => {
-          let options = {
-            language: 'pt-BR',
-            showPopup: true, 
-          }
-          this.speechRecognition.startListening(options)
           .subscribe(
-          async (matches: Array < string > ) => {
-          let calendar = await this.storageProvider.onGetCalendar();
-          let dataInicial = new Date(2020,mes,dia);
-          let eventoExcluido = false;
-          for(let i = 0;i<calendar.events.length;i++){
-              if(calendar.events[i].startTime.getDate() == dataInicial.getDate() &&
-                 calendar.events[i].startTime.getMonth() == dataInicial.getMonth()){
-                  for(let u = 0;u < matches.length;u++){
-                      if(calendar.events[i].title.toLowerCase().includes(matches[u])){
-                        calendar.events.splice(i,1);
-                        eventoExcluido = true;
-                        this.storageProvider.onSetCalendar(calendar);
-                      }
-                  }
-                }      
-          }
-          if(eventoExcluido) this.textSpeechProvider.speak("Evento excluido com sucesso");
-          else this.textSpeechProvider.speak("Evento não encontrado");
-          this.cd.detectChanges();
-          })
-        })
-        }
-        else {
-          this.textSpeechProvider.speak("Data informada inválida");
-        }
+            async (matches: Array < string > ) => {
+              let reminder = await this.storageProvider.onGetReminder();
+              let n = parseInt(matches[0]) - 1;
+              if (n >= 0 && n < reminder.length) {
+                reminder.splice(n, 1)
+                this.storageProvider.onSetReminder(reminder);
+                this.textSpeechProvider.speak("Lembrete removido");
+                this.cd.detectChanges();
+              } else {
+                this.textSpeechProvider.speak("Numero informado invalido");
+              }
+            })
       })
-    })
   }
 
-  limparLembretes(){
+  editarLembrete() {
+    this.textSpeechProvider.speak("Informe o número do lembrete que deseja editar")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true,
+        }
+        this.speechRecognition.startListening(options)
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let reminder = await this.storageProvider.onGetReminder();
+              let n = parseInt(matches[0]) - 1;
+              if (n >= 0 && n < reminder.length) {
+                this.textSpeechProvider.speak("Informe a nova descrição do lembrete")
+                  .then(res => {
+                    let options = {
+                      language: 'pt-BR',
+                      showPopup: true,
+                    }
+                    this.speechRecognition.startListening(options)
+                      .subscribe(
+                        async (matches: Array < string > ) => {
+                          reminder[n] = matches[0];
+                          this.storageProvider.onSetReminder(reminder);
+                          this.textSpeechProvider.speak("Lembrete alterado");
+                          this.cd.detectChanges();
+                        })
+                  })
+              } else {
+                this.textSpeechProvider.speak("Numero informado invalido");
+              }
+            })
+      })
+  }
+
+  removerEvento() {
+    this.textSpeechProvider.speak("Informe a data do evento")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true,
+        }
+        this.speechRecognition.startListening(options)
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let data = matches[0].split(' ');
+              let dia = parseInt(data[0]);
+              let mes = this.meses.indexOf(data[2].toLowerCase());
+              if (dia >= 1 && dia <= 31 && mes != -1) {
+                this.textSpeechProvider.speak("Informe o título do evento")
+                  .then(res => {
+                    let options = {
+                      language: 'pt-BR',
+                      showPopup: true,
+                    }
+                    this.speechRecognition.startListening(options)
+                      .subscribe(
+                        async (matches: Array < string > ) => {
+                          let calendar = await this.storageProvider.onGetCalendar();
+                          let dataInicial = new Date(2020, mes, dia);
+                          let eventoExcluido = false;
+                          for (let i = (calendar.events.length - 1); i >= 0; i--) {
+                            if (calendar.events[i].startTime.getDate() == dataInicial.getDate() &&
+                              calendar.events[i].startTime.getMonth() == dataInicial.getMonth()) {
+                              for (let u = 0; u < matches.length; u++) {
+                                if (calendar.events[i].title.toLowerCase().includes(matches[u])) {
+                                  calendar.events.splice(i, 1);
+                                  eventoExcluido = true;
+                                  break;
+                                }
+                              }
+                              if (eventoExcluido) break;
+                            }
+                          }
+                          if (eventoExcluido) {
+                            this.storageProvider.onSetCalendar(calendar);
+                            this.textSpeechProvider.speak("Evento excluido com sucesso")
+                          } else this.textSpeechProvider.speak("Evento não encontrado");
+                          this.cd.detectChanges();
+                        })
+                  })
+              } else {
+                this.textSpeechProvider.speak("Data informada inválida");
+              }
+            })
+      })
+  }
+  editarEvento() {
+    this.textSpeechProvider.speak("Informe a data do evento")
+      .then(res => {
+        let options = {
+          language: 'pt-BR',
+          showPopup: true,
+        }
+        this.speechRecognition.startListening(options)
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let data = matches[0].split(' ');
+              let dia = parseInt(data[0]);
+              let mes = this.meses.indexOf(data[2].toLowerCase());
+              if (dia >= 1 && dia <= 31 && mes != -1) {
+                this.textSpeechProvider.speak("Informe o título do evento")
+                  .then(res => {
+                    let options = {
+                      language: 'pt-BR',
+                      showPopup: true,
+                    }
+                    this.speechRecognition.startListening(options)
+                      .subscribe(
+                        async (matches: Array < string > ) => {
+                          let calendar = await this.storageProvider.onGetCalendar();
+                          let dataInicial = new Date(2020, mes, dia);
+                          let eventoEditado = false;
+                          for (let i = (calendar.events.length - 1); i >= 0; i--) {
+                            if (calendar.events[i].startTime.getDate() == dataInicial.getDate() &&
+                              calendar.events[i].startTime.getMonth() == dataInicial.getMonth()) {
+                              for (let u = 0; u < matches.length; u++) {
+                                if (calendar.events[i].title.toLowerCase().includes(matches[u])) {
+                                  this.textSpeechProvider.speak("Informe o novo título do evento")
+                                    .then(res => {
+                                      let options = {
+                                        language: 'pt-BR',
+                                        showPopup: true,
+                                      }
+                                      this.speechRecognition.startListening(options)
+                                        .subscribe(
+                                          async (matches: Array < string > ) => {
+                                            let title = matches[0];
+                                            this.textSpeechProvider.speak("Informe a nova data do evento")
+                                              .then(res => {
+                                                let options = {
+                                                  language: 'pt-BR',
+                                                  showPopup: true,
+                                                }
+                                                this.speechRecognition.startListening(options)
+                                                  .subscribe(
+                                                    async (matches: Array < string > ) => {
+                                                      let data = matches[0].split(' ');
+                                                      let dia = parseInt(data[0]);
+                                                      let mes = this.meses.indexOf(data[2].toLowerCase());
+                                                      if (dia >= 1 && dia <= 31 && mes != -1) {
+                                                        let evento = {
+                                                          title: title,
+                                                          startTime: new Date(2020, mes, dia),
+                                                          endTime: new Date(2020, mes, dia),
+                                                          allDay: true,
+                                                        }
+                                                        calendar.events[i] = evento;
+                                                        eventoEditado = true;
+                                                      } else {
+                                                        this.textSpeechProvider.speak("Data informada inválida");
+                                                      }
+                                                    })
+                                              })
+                                          })
+                                    })
+                                }
+                                if (eventoEditado) break;
+                              }
+                              if (eventoEditado) break;
+                            }
+                          }
+                          if (eventoEditado) {
+                            this.storageProvider.onSetCalendar(calendar);
+                            this.textSpeechProvider.speak("Evento alterado com sucesso")
+                          } else this.textSpeechProvider.speak("Evento não encontrado");
+                          this.cd.detectChanges();
+                        })
+                  })
+              } else {
+                this.textSpeechProvider.speak("Data informada inválida");
+              }
+            })
+      })
+  }
+
+  limparLembretes() {
     this.textSpeechProvider.speak("Todos os lembretes serão apagados, deseja continuar?")
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let limpeza = false;
-          for(let i = 0;i<matches.length;i++){
-            if(matches[i].toLowerCase().includes("sim")){
-              this.storageProvider.onSetReminder([]);
-              limpeza = true;
-              break;
-            }
-          }
-          if(limpeza) this.textSpeechProvider.speak("Lembretes excluidos com sucesso");
-          else this.textSpeechProvider.speak("Operação cancelada");
-          this.cd.detectChanges();
-        })
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let limpeza = false;
+              for (let i = 0; i < matches.length; i++) {
+                if (matches[i].toLowerCase().includes("sim")) {
+                  this.storageProvider.onSetReminder([]);
+                  limpeza = true;
+                  break;
+                }
+              }
+              if (limpeza) this.textSpeechProvider.speak("Lembretes excluidos com sucesso");
+              else this.textSpeechProvider.speak("Operação cancelada");
+              this.cd.detectChanges();
+            })
       })
   }
-  
-  limparCalendario(){
+
+  limparCalendario() {
     this.textSpeechProvider.speak("Todos os eventos serão apagados, deseja continuar?")
       .then(res => {
         let options = {
           language: 'pt-BR',
-          showPopup: true, 
+          showPopup: true,
         }
         this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          let limpeza = false;
-          for(let i = 0;i<matches.length;i++){
-            if(matches[i].toLowerCase().includes("sim")){
-              let calendar = await this.storageProvider.onGetCalendar();
-              calendar.events = [];
-              calendar.mode = 'month';
-              calendar.currentDate = new Date();
-              this.storageProvider.onSetCalendar(calendar);
-              limpeza = true;
-              break;
-            }
-          }
-          if(limpeza) this.textSpeechProvider.speak("Eventos excluidos com sucesso");
-          else this.textSpeechProvider.speak("Operação cancelada");
-          this.cd.detectChanges();
-        })
+          .subscribe(
+            async (matches: Array < string > ) => {
+              let limpeza = false;
+              for (let i = 0; i < matches.length; i++) {
+                if (matches[i].toLowerCase().includes("sim")) {
+                  let calendar = await this.storageProvider.onGetCalendar();
+                  calendar.events = [];
+                  calendar.mode = 'month';
+                  calendar.currentDate = new Date();
+                  this.storageProvider.onSetCalendar(calendar);
+                  limpeza = true;
+                  break;
+                }
+              }
+              if (limpeza) this.textSpeechProvider.speak("Eventos excluidos com sucesso");
+              else this.textSpeechProvider.speak("Operação cancelada");
+              this.cd.detectChanges();
+            })
       })
   }
 
-  exibirComandos(){
+  exibirComandos() {
     this.openFirst();
   }
-  recomendaFilme(){
+
+  recomendaFilme() {
     this.filmeProvider.getFilme()
-    .then((res : any) => {
-      this.textSpeechProvider.speakIngles(res.filme)
-      .then(res => {
-        this.textSpeechProvider.speak("Deseja que recomende outro filme?")
-      .then(res => {
-        let options = {
-          language: 'pt-BR',
-          showPopup: true, 
-        }
-        this.speechRecognition.startListening(options)
-      .subscribe(
-        async (matches: Array < string > ) => {
-          for(let i = 0;i<matches.length;i++){
-            if(matches[i].toLowerCase().includes("sim")){
-              this.recomendaFilme();
-              break;
-            }
-          }
-        })
-      })})
-    })
+      .then((res: any) => {
+        this.textSpeechProvider.speakIngles(res.filme)
+          .then(res => {
+            this.textSpeechProvider.speak("Deseja que recomende outro filme?")
+              .then(res => {
+                let options = {
+                  language: 'pt-BR',
+                  showPopup: true,
+                }
+                this.speechRecognition.startListening(options)
+                  .subscribe(
+                    async (matches: Array < string > ) => {
+                      for (let i = 0; i < matches.length; i++) {
+                        if (matches[i].toLowerCase().includes("sim")) {
+                          this.recomendaFilme();
+                          break;
+                        }
+                      }
+                    })
+              })
+          })
+      })
   }
 }

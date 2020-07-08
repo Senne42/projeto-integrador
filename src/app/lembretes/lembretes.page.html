@@ -11,14 +11,14 @@
 </ion-toolbar>
 
 <ion-content fullscreen class="ion-padding">
-    <ion-card *ngFor="let lembrete of lembretes; let i=index">
-      <ion-item>
-        <p>{{i+1}} - {{lembrete}}</p>
-      </ion-item>
-    </ion-card>
-    <ion-card *ngIf="lembretes.length == 0">
-      <ion-item>
-        <p>Você não possui lembretes! :(</p>
-      </ion-item>
-    </ion-card>
+  <ion-card *ngFor="let lembrete of lembretes; let i=index">
+    <ion-item>
+      <p>{{i+1}} - {{lembrete}}</p>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngIf="lembretes.length == 0">
+    <ion-item>
+      <p>Você não possui lembretes! :(</p>
+    </ion-item>
+  </ion-card>
 </ion-content>

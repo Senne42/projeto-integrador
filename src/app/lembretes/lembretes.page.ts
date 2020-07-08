@@ -12,25 +12,23 @@ export class LembretesPage implements OnInit {
 
   private subscription: Subscription;
 
-  constructor(private storageProvider: LocalStorageProvider, private menu: MenuController) {
-}
+  constructor(private storageProvider: LocalStorageProvider, private menu: MenuController) {}
 
   lembretes = [];
-  
+
   async ngOnInit() {
     let reminder = await this.storageProvider.onGetReminder();
-        if (!reminder) {
-            this.storageProvider.onSetReminder([]);
-        }
-        else{
-            this.lembretes = reminder;
-        }
-        this.subscription = this.storageProvider.reminderSubject.subscribe((obj: any) => {
-            this.lembretes = obj;
-        })
+    if (!reminder) {
+      this.storageProvider.onSetReminder([]);
+    } else {
+      this.lembretes = reminder;
+    }
+    this.subscription = this.storageProvider.reminderSubject.subscribe((obj: any) => {
+      this.lembretes = obj;
+    })
   }
 
-  abreMenu(){
+  abreMenu() {
     this.menu.enable(true, 'first');
     this.menu.open('first');
   }
