@@ -432,13 +432,23 @@ export class TabsPage implements OnInit {
                         async (matches: Array < string > ) => {
                           let calendar = await this.storageProvider.onGetCalendar();
                           let dataInicial = new Date(2020, mes, dia);
-                          let eventoEditado = false;
+                          let eventoAlterado = false;
+                          let index;
                           for (let i = (calendar.events.length - 1); i >= 0; i--) {
                             if (calendar.events[i].startTime.getDate() == dataInicial.getDate() &&
                               calendar.events[i].startTime.getMonth() == dataInicial.getMonth()) {
                               for (let u = 0; u < matches.length; u++) {
                                 if (calendar.events[i].title.toLowerCase().includes(matches[u])) {
-                                  this.textSpeechProvider.speak("Informe o novo título do evento")
+                                  index = i;
+                                  eventoAlterado = true;
+                                  break;
+                                }
+                              }
+                              if (eventoAlterado) break;
+                            }
+                          }
+                          if (eventoAlterado) {
+                            this.textSpeechProvider.speak("Informe o novo título do evento")
                                     .then(res => {
                                       let options = {
                                         language: 'pt-BR',
@@ -467,8 +477,10 @@ export class TabsPage implements OnInit {
                                                           endTime: new Date(2020, mes, dia),
                                                           allDay: true,
                                                         }
-                                                        calendar.events[i] = evento;
-                                                        eventoEditado = true;
+                                                        calendar.events[index] = evento;
+                                                        this.storageProvider.onSetCalendar(calendar);
+                                                        this.cd.detectChanges();
+                                                        this.textSpeechProvider.speak("Evento alterado com sucesso")
                                                       } else {
                                                         this.textSpeechProvider.speak("Data informada inválida");
                                                       }
@@ -476,15 +488,6 @@ export class TabsPage implements OnInit {
                                               })
                                           })
                                     })
-                                }
-                                if (eventoEditado) break;
-                              }
-                              if (eventoEditado) break;
-                            }
-                          }
-                          if (eventoEditado) {
-                            this.storageProvider.onSetCalendar(calendar);
-                            this.textSpeechProvider.speak("Evento alterado com sucesso")
                           } else this.textSpeechProvider.speak("Evento não encontrado");
                           this.cd.detectChanges();
                         })
