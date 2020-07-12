@@ -92,3 +92,16 @@ O nosso projeto tem por finalidade a criação de um calendário interativo por 
 - Melhorias visuais nas telas.
 - Implementação do comando de voz remover evento.
 - Implementação do comando de voz para remover todos os lembretes/eventos.
+
+## Sprint 6
+
+- Implementação da repetição das funcionalidades de adicionar lembrete/evento.
+- Implementação do comando de voz editar lembrete.
+- Implementação do consumo da API do 6º semestre.
+- Implementação do comando de voz para recomendar filme.
+- Implementação inicial do comando de voz editar evento.
+- Melhoria na indentação de código.
+- Implementação de uppercase na primeira letra dos lembretes.
+- Implementação da remoção da barra de rolagem na tela de calendário.
+- Alteração do ícone e tela de splash da aplicação.
+- Inclusão de novos comandos na tela de comandos.
