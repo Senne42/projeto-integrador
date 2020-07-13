@@ -1,0 +1,22 @@
+<ion-header>
+    <ion-toolbar color="tertiary" mode="ios">
+        <ion-buttons slot="start">
+            <ion-button>
+                <ion-icon name="hardware-chip-outline"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-buttons (click)="abreMenu()" slot="end">
+            <ion-menu-button auto-hide="false"></ion-menu-button>
+        </ion-buttons>
+        <ion-title>M.A.I.A</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content fullscreen class="ion-padding" style= "max-height: 100%;">
+    <p class="titulo">{{viewTitle}}</p>
+    <div>
+        <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+            (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+            (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
+         </calendar>
+    </div>
+</ion-content>

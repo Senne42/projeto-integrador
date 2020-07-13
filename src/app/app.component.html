@@ -1,0 +1,165 @@
+<ion-app>
+  <ion-split-pane contentId="main">  
+    <ion-menu side="end" menuId="first" contentId="main">
+      <ion-header>
+        <ion-toolbar color="tertiary" mode="ios">
+          <ion-title>Comandos</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>RECOMENDE UM FILME</h3>
+            </ion-text>
+            <p>Comando para recomendar</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência deseja ouvir outra recomendação de filme.</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>ABRIR CALENDÁRIO</h3>
+            </ion-text>
+            <p>Comando utilizado para abrir calendário.</p>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>ALTERAR EXIBIÇÃO</h3>
+            </ion-text>
+            <p>Comando utilizado para aterar o modo de exibição do calendário.</p>
+            <ion-text color="secondary">
+              <p>Opções para este comando: "DIA"; "MÊS" ou "ANO" </p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>ADICIONAR EVENTO</h3>
+            </ion-text>
+            <p>Comando utilizado para adicionar novo evento.</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado o título do evento e sequência dia e mês do evento.</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>EDITAR EVENTO</h3>
+            </ion-text>
+            <p>Comando para editar eventos</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência a data e título do evento, depois o novo título e data do evento </p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+        
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>REMOVER EVENTO</h3>
+            </ion-text>
+            <p>Comando utilizado para remover eventos.</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado dia e mês do evento, e em sequência o título do evento.</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>EXIBIR EVENTOS</h3>
+            </ion-text>
+            <p>Comando utilizado para exibir eventos.</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência dia e mês do evento.</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>LIMPAR CALENDÁRIO</h3>
+            </ion-text>
+            <p>Comando utilizado para remover todos os eventos.</p>
+            <ion-text color="secondary">
+              <p>Será questionado se realmente deseja remover todos os eventos</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>EXIBIR LEMBRETES</h3>
+            </ion-text>
+            <p>Comando utilizado para exibir a pagina de lembretes</p>   
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>ADICIONAR LEMBRETE</h3>
+            </ion-text>
+            <p>Comando para adicionar lembretes</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência o nome do lembrete</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>EDITAR LEMBRETE</h3>
+            </ion-text>
+            <p>Comando para editar lembretes</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência o número do lembrete, deve ser iformada a nova descrição do lembrete</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>REMOVER LEMBRETE</h3>
+            </ion-text>
+            <p>Comando para remover lembretes</p>
+            <ion-text color="secondary">
+              <p>Deve ser informado em sequência o número do lembrete</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="ion-text-wrap">
+            <ion-text color="primary">
+              <h3>LIMPAR LEMBRETES</h3>
+            </ion-text>
+            <p>Comando utilizado para remover todos lembrtes</p>
+            <ion-text color="secondary">
+              <p>Será questionado se realmente deseja remover todos os lembretes</p>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,24 @@
+<ion-toolbar color="tertiary" mode="ios">
+  <ion-buttons slot="start">
+    <ion-button>
+      <ion-icon name="hardware-chip-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons (click)="abreMenu()" slot="end">
+    <ion-menu-button auto-hide="false"></ion-menu-button>
+  </ion-buttons>
+  <ion-title>M.A.I.A</ion-title>
+</ion-toolbar>
+
+<ion-content fullscreen class="ion-padding">
+  <ion-card *ngFor="let lembrete of lembretes; let i=index">
+    <ion-item>
+      <p>{{i+1}} - {{lembrete}}</p>
+    </ion-item>
+  </ion-card>
+  <ion-card *ngIf="lembretes.length == 0">
+    <ion-item>
+      <p>Você não possui lembretes! :(</p>
+    </ion-item>
+  </ion-card>
+</ion-content>
